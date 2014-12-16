@@ -30,6 +30,24 @@
           outlet.style.top = '' + this.y + 'px';
         };
 
+        this.detectWin = function() {
+          if (this.checkXPos() && this.checkYPos()) {
+            return true;
+          }
+        };
+
+        this.checkXPos = function() {
+          if (this.x > 349 && this.x < 351) {
+            return true;
+          }
+        }
+
+        this.checkYPos = function() {
+          if (this.y > 224 && this.y < 226) {
+            return true;
+          }
+        }
+
         this.moveTowards = function(x, y) {
           var deltaX = x - this.x;
           var deltaY = y - this.y;
@@ -42,6 +60,7 @@
 
       function Scene() {
         this.attackers = [];
+        this.lost = false;
 
         var timestamp = 0;
         var timeSinceLastAttacker = 0;
@@ -51,6 +70,21 @@
           attackerElement.setAttribute("class", "attacker");
           attacker.outlet = attackerElement;
           this.stageElement().appendChild(attackerElement);
+        };
+
+        this.removeAttackersFromStage = function() {
+          var attackersToRemove = this.stageElement().getElementsByClassName("attacker");
+          for (var i = 0; i < attackersToRemove.length; i++) {
+            this.stageElement().removeChild(attackersToRemove[i]);
+          };
+        }
+
+        this.endGame = function() {
+          this.removeAttackersFromStage();
+          this.removeAttackers();
+          this.timestamp = 0;
+          this.timeSinceLastAttacker = 0;
+          this.lost = true;
         };
 
         this.defenders = function() {
@@ -65,8 +99,20 @@
           for (var i = 0; i < this.attackers.length; i++) {
             var attacker = this.attackers[i];
             attacker.draw();
+            if (attacker.detectWin() == true) {
+              this.endGame();
+            };
           }
         };
+
+        this.removeAttackers = function() {
+          for (var i = 0; i < this.attackers.length; i++) {
+            var index = this.attackers[i];
+            if (index > -1) {
+              this.attackers.splice(index, 1);
+            }
+          };
+        }
 
         this.spawnAttacker = function(step) {
           var attacker = new Attacker();
@@ -78,7 +124,6 @@
           // console.log(attacker)
           this.attackers.push(attacker);
           this.addAttackerToStage(attacker);
-
         };
 
         this.stageElement = function() {

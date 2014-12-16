@@ -32,22 +32,10 @@
         };
 
         this.detectWin = function() {
-          if (this.checkXPos() && this.checkYPos()) {
+          if (scene.distance(this, {x: scene.centerX(), y: scene.centerY()}) < 40) {
             return true;
           }
         };
-
-        this.checkXPos = function() {
-          if (this.x > 349 && this.x < 351) {
-            return true;
-          }
-        }
-
-        this.checkYPos = function() {
-          if (this.y > 224 && this.y < 226) {
-            return true;
-          }
-        }
 
         this.moveTowards = function(x, y) {
           var deltaX = x - this.x;
@@ -56,7 +44,7 @@
           var angle = Math.atan2(deltaY, deltaX);
           this.x += Math.cos(angle) * this.speed;
           this.y += Math.sin(angle) * this.speed;
-        }
+        };
       }
 
       function Missile() {
@@ -139,11 +127,11 @@
         }
 
         this.endGame = function() {
+          this.lost = true;
           this.removeAttackersFromStage();
           this.removeAttackers();
           this.timestamp = 0;
           this.timeSinceLastAttacker = 0;
-          this.lost = true;
         };
 
         this.height = function() {
@@ -154,9 +142,6 @@
           for (var i = 0; i < this.attackers.length; i++) {
             var attacker = this.attackers[i];
             attacker.draw();
-            if (attacker.detectWin() == true) {
-              this.endGame();
-            };
           }
 
           for (var i = 0; i < this.missiles.length; i++) {
@@ -250,6 +235,9 @@
               this.width() / 2,
               this.height() / 2
             );
+            if (attacker.detectWin(this.centerX(), this.centerY())) {
+              this.endGame();
+            };
           }
         };
 
@@ -281,6 +269,9 @@
             /* enter key was pressed */
             scene.defend();
             break;
+          case 84:
+            /* s key was pressed */
+            scene.lost = false;
         }
       }
       window.addEventListener('keydown', doKeyDown, true);

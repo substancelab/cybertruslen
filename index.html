@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=770" />
     <script src="scripts/game_loop.js"></script>
     <script src="scripts/stage.js"></script>
-    <script src="scripts/keyboard_event.js"></script>
-    <script src="scripts/jquery-1.11.1.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <link href="styles/screen.css" rel="stylesheet" type="text/css" />
   </head>
 
@@ -120,8 +117,16 @@
       var stage = new Stage();
       var scene = new Scene();
       stage.play(scene);
+
+      function doKeyDown(event){
+        switch (event.keyCode) {
+          case 13:
+            /* enter key was pressed */
+            console.log('DEFEND')
+            break;
+        }
+      }
+      window.addEventListener('keydown', doKeyDown, true);
     </script>
   </body>
-
-  </head>
 </html>

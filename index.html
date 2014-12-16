@@ -4,6 +4,7 @@
     <title>Cybertruslen</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=770" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="scripts/game_loop.js"></script>
     <script src="scripts/stage.js"></script>
     <link href="styles/screen.css" rel="stylesheet" type="text/css" />
@@ -21,7 +22,7 @@
 
         this.x = 100;
         this.y = 100;
-        this.speed = 1;
+        this.speed = 5;
         this.outlet = undefined;
 
         this.draw = function() {
@@ -53,12 +54,20 @@
           this.stageElement().appendChild(attackerElement);
         };
 
+        this.centerX = function() {
+          this.width / 2;
+        };
+
+        this.centerY = function() {
+          this.height / 2;
+        };
+
         this.defenders = function() {
           return document.getElementById("defenders");
         };
 
         this.height = function() {
-          return 450
+          return $(this.stageElement()).height()
         };
 
         this.render = function(context, deltaTime) {
@@ -78,7 +87,6 @@
           // console.log(attacker)
           this.attackers.push(attacker);
           this.addAttackerToStage(attacker);
-
         };
 
         this.stageElement = function() {
@@ -110,7 +118,7 @@
         };
 
         this.width = function() {
-          return 700
+          return $(this.stageElement()).width()
         };
       }
 

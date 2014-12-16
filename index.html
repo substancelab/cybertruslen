@@ -6,8 +6,91 @@
     <meta name="viewport" content="width=770" />
     <script src="scripts/game_loop.js"></script>
     <script src="scripts/stage.js"></script>
+    <link href="styles/screen.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body>
+
+    <div id="stage" class="stage">
+      <div class="defenders">YO</div>
+    </div>
+
+    <script>
+      function Attacker() {
+        var self = this;
+
+        this.x = 100;
+        this.y = 100;
+        this.speed = 10;
+        this.outlet = undefined;
+
+        this.draw = function() {
+          var outlet = this.outlet;
+          outlet.style.left = '' + this.x + 'px';
+          outlet.style.top = '' + this.y + 'px';
+        };
+
+        this.moveTowards = function(x, y) {
+          // console.log('Moving', x, y)
+        }
+      }
+
+      function Scene() {
+        this.attackers = [];
+
+        var timestamp = 0;
+        var timeSinceLastAttacker = 0;
+
+        this.addAttackerToStage = function(attacker) {
+          var attackerElement = document.createElement('div');
+          attackerElement.setAttribute("class", "attacker");
+          attacker.outlet = attackerElement;
+          this.stageElement().appendChild(attackerElement);
+        };
+
+        this.render = function(context, deltaTime) {
+          for (var i = 0; i < this.attackers.length; i++) {
+            var attacker = this.attackers[i];
+            attacker.draw();
+          }
+        };
+
+        this.spawnAttacker = function(step) {
+          var attacker = new Attacker();
+          // console.log(attacker)
+          this.attackers.push(attacker);
+          this.addAttackerToStage(attacker);
+
+        };
+
+        this.stageElement = function() {
+          if (!this._stageElement) {
+            this._stageElement = document.getElementById('stage');
+          };
+          return this._stageElement;
+        };
+
+        this.update = function(step) {
+          timestamp += step;
+          timeSinceLastAttacker += step;
+          if (this.attackers.length < 1) {
+            this.spawnAttacker();
+          };
+
+          this.updateAttackers(step);
+        };
+
+        this.updateAttackers = function(step) {
+          for (var i = 0; i < this.attackers.length; i++) {
+            var attacker = this.attackers[i];
+            attacker.moveTowards(500,300);
+          }
+        };
+      }
+
+      var stage = new Stage();
+      var scene = new Scene();
+      stage.play(scene);
+    </script>
   </body>
 </html>

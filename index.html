@@ -121,13 +121,22 @@
         };
 
         this.defend = function() {
-          console.debug("FIRE!")
-          this.spawnMissile();
+          var target = this.attackers[0];
+          if (target) {
+            this.spawnMissile(target);
+          }
         };
 
         this.defenders = function() {
           return document.getElementById("defenders");
         };
+
+        this.distance = function(a, b) {
+          var deltaX = a.x - b.x;
+          var deltaY = a.y - b.y;
+
+          return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+        }
 
         this.endGame = function() {
           this.removeAttackersFromStage();
@@ -173,7 +182,7 @@
 
         this.removeAttackerFromStage = function(attacker) {
           if (attacker.outlet) {
-            this.stageElement().removeChild(attacker.outlet);
+            $(attacker.outlet).remove();
           }
         }
 
@@ -182,6 +191,14 @@
           for (var i = 0; i < attackersToRemove.length; i++) {
             this.stageElement().removeChild(attackersToRemove[i]);
           };
+        }
+
+        this.removeMissile = function(missile) {
+          var index = this.missiles.indexOf(missile);
+          if (index > -1) {
+            this.missiles.splice(index, 1);
+          };
+          $(missile.outlet).remove();
         }
 
         this.spawnAttacker = function() {
@@ -194,14 +211,14 @@
           this.addAttackerToStage(attacker);
         };
 
-        this.spawnMissile = function() {
+        this.spawnMissile = function(target) {
           var missile = new Missile();
           var angle = Math.random() * Math.PI * 2;
 
           missile.x = this.centerX();
           missile.y = this.centerY();
 
-          missile.target = this.attackers[0];
+          missile.target = target;
 
           this.missiles.push(missile);
           this.addMissileToStage(missile);
@@ -240,6 +257,12 @@
           for (var i = 0; i < this.missiles.length; i++) {
             var missile = this.missiles[i];
             missile.update();
+
+            var distanceToTarget = this.distance(missile, missile.target);
+            if (distanceToTarget < 15) {
+              this.removeAttacker(missile.target)
+              this.removeMissile(missile)
+            }
           }
         };
 

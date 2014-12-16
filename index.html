@@ -69,7 +69,6 @@
         this.outlet = undefined;
 
         this.draw = function() {
-          console.debug(this.x, this.y, this.outlet)
           var outlet = this.outlet;
           outlet.style.left = '' + this.x + 'px';
           outlet.style.top = '' + this.y + 'px';
@@ -112,13 +111,6 @@
           missile.outlet = missileElement;
           this.stageElement().appendChild(missileElement);
         };
-
-        this.removeAttackersFromStage = function() {
-          var attackersToRemove = this.stageElement().getElementsByClassName("attacker");
-          for (var i = 0; i < attackersToRemove.length; i++) {
-            this.stageElement().removeChild(attackersToRemove[i]);
-          };
-        }
 
         this.centerX = function() {
           return this.width() / 2;
@@ -164,12 +156,31 @@
           }
         };
 
+        this.removeAttacker = function(attacker) {
+          var index = this.attackers.indexOf(attacker);
+          if (index > -1) {
+            this.attackers.splice(index, 1);
+          };
+          this.removeAttackerFromStage(attacker);
+        }
+
         this.removeAttackers = function() {
           for (var i = 0; i < this.attackers.length; i++) {
-            var index = this.attackers[i];
-            if (index > -1) {
-              this.attackers.splice(index, 1);
-            }
+            var attacker = this.attackers[i];
+            this.removeAttacker(attacker);
+          };
+        }
+
+        this.removeAttackerFromStage = function(attacker) {
+          if (attacker.outlet) {
+            this.stageElement().removeChild(attacker.outlet);
+          }
+        }
+
+        this.removeAttackersFromStage = function() {
+          var attackersToRemove = this.stageElement().getElementsByClassName("attacker");
+          for (var i = 0; i < attackersToRemove.length; i++) {
+            this.stageElement().removeChild(attackersToRemove[i]);
           };
         }
 

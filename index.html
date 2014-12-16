@@ -96,7 +96,11 @@
         this.missiles = [];
 
         var timestamp = 0;
+        var timeBetweenAttackers = 2;
         var timeSinceLastAttacker = 0;
+
+        var difficultyRampUp = 0.95;
+        var minimumTimeBetweenAttackers = 0.2;
 
         this.addAttackerToStage = function(attacker) {
           var attackerElement = document.createElement('div');
@@ -234,9 +238,14 @@
         this.update = function(step) {
           timestamp += step;
           timeSinceLastAttacker += step;
-          if (timeSinceLastAttacker > 1) {
+
+          if (timeSinceLastAttacker > timeBetweenAttackers) {
             this.spawnAttacker();
             timeSinceLastAttacker = 0;
+            timeBetweenAttackers = timeBetweenAttackers * difficultyRampUp;
+            if (timeBetweenAttackers <= minimumTimeBetweenAttackers) {
+              timeBetweenAttackers = minimumTimeBetweenAttackers;
+            }
           };
 
           this.updateMissiles(step);

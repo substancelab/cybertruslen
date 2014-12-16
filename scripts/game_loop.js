@@ -2,11 +2,6 @@ function GameLoop(context) {
   // Fixed timestep GameLoop from
   // http://codeincomplete.com/posts/2013/12/4/javascript_game_foundations_the_game_loop/
   var self = this;
-  var context = context;
-
-  self.clear = function() {
-    context.clearRect(0,0, context.canvas.width, context.canvas.height);
-  };
 
   self.frame = function() {
     now = self.timestamp();
@@ -21,8 +16,7 @@ function GameLoop(context) {
   };
 
   self.render = function(deltaTime) {
-    self.clear()
-    self.scene.render(context, deltaTime);
+    self.scene.render(deltaTime);
   };
 
   self.requestAnimationFrame = function() {
@@ -31,7 +25,6 @@ function GameLoop(context) {
 
   self.run = function(scene) {
     self.scene = scene;
-    scene.context = context;
     self.requestAnimationFrame()
   }
 
@@ -48,5 +41,3 @@ function GameLoop(context) {
       last = self.timestamp(),
       step = 1/60;
 }
-
-

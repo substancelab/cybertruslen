@@ -27,6 +27,15 @@ html, body {
   width: 361px;
 }
 
+.missile {
+  background: red;
+  height: 40px;
+  margin-left: -20px;
+  margin-right: -20px;
+  position: absolute;
+  width: 40px;
+}
+
 .stage {
   background: #000000;
   height: 100%;

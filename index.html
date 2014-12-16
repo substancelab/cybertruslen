@@ -12,7 +12,7 @@
   <body>
 
     <div id="stage" class="stage">
-      <div class="defenders">YO</div>
+      <div id="defenders" class="defenders">YO</div>
     </div>
 
     <script>
@@ -53,6 +53,10 @@
           this.stageElement().appendChild(attackerElement);
         };
 
+        this.defenders = function() {
+          return document.getElementById("defenders");
+        };
+
         this.render = function(context, deltaTime) {
           for (var i = 0; i < this.attackers.length; i++) {
             var attacker = this.attackers[i];
@@ -89,7 +93,7 @@
         this.updateAttackers = function(step) {
           for (var i = 0; i < this.attackers.length; i++) {
             var attacker = this.attackers[i];
-            attacker.moveTowards(500,300);
+            attacker.moveTowards(350,225);
           }
         };
       }

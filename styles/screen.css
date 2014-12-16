@@ -17,11 +17,16 @@ html, body {
 .defenders {
   background: yellow;
   height: 331px;
-  left: 50%;
+  left: 350px;
   margin-left: -180px;
   margin-top: -165px;
   position: absolute;
-  top: 50%;
+  top: 225px;
   width: 361px;
 }
 
+.stage {
+  background: #000000;
+  height: 450px;
+  width: 700px;
+}

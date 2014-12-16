@@ -21,7 +21,7 @@
 
         this.x = 100;
         this.y = 100;
-        this.speed = 10;
+        this.speed = 1;
         this.outlet = undefined;
 
         this.draw = function() {
@@ -31,7 +31,12 @@
         };
 
         this.moveTowards = function(x, y) {
-          // console.log('Moving', x, y)
+          var deltaX = x - this.x;
+          var deltaY = y - this.y;
+
+          var angle = Math.atan2(deltaY, deltaX);
+          this.x += Math.cos(angle) * this.speed;
+          this.y += Math.sin(angle) * this.speed;
         }
       }
 
@@ -73,8 +78,9 @@
         this.update = function(step) {
           timestamp += step;
           timeSinceLastAttacker += step;
-          if (this.attackers.length < 1) {
+          if (timeSinceLastAttacker > 1) {
             this.spawnAttacker();
+            timeSinceLastAttacker = 0;
           };
 
           this.updateAttackers(step);

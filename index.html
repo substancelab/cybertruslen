@@ -57,6 +57,10 @@
           return document.getElementById("defenders");
         };
 
+        this.height = function() {
+          return 450
+        };
+
         this.render = function(context, deltaTime) {
           for (var i = 0; i < this.attackers.length; i++) {
             var attacker = this.attackers[i];
@@ -66,6 +70,11 @@
 
         this.spawnAttacker = function(step) {
           var attacker = new Attacker();
+          var angle = Math.random() * Math.PI * 2;
+          attacker.x = this.width() / 2 + Math.cos(angle) * this.width();
+          attacker.y = this.height() / 2 + Math.sin(angle) * this.height();
+
+
           // console.log(attacker)
           this.attackers.push(attacker);
           this.addAttackerToStage(attacker);
@@ -93,8 +102,15 @@
         this.updateAttackers = function(step) {
           for (var i = 0; i < this.attackers.length; i++) {
             var attacker = this.attackers[i];
-            attacker.moveTowards(350,225);
+            attacker.moveTowards(
+              this.width() / 2,
+              this.height() / 2
+            );
           }
+        };
+
+        this.width = function() {
+          return 700
         };
       }
 

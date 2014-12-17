@@ -73,6 +73,10 @@
           this.target = scene.attackers[0];
         };
 
+        this.despawn = function() {
+          scene.removeMissile(this);
+        };
+
         this.draw = function() {
           var outlet = this.outlet;
           outlet.style.left = '' + this.x + 'px';
@@ -83,7 +87,7 @@
           if (this.target && this.target.alive) {
             this.moveTowards(this.target.x, this.target.y);
           } else {
-            this.aquireTarget()
+            this.despawn()
           }
         };
 

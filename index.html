@@ -62,7 +62,7 @@
         this.turnSpeed = 0.15
 
         this.aquireTarget = function() {
-          this.target = scene.attackers[0];
+          this.target = scene.attackers[Math.floor(Math.random() * scene.attackers.length)];
         };
 
         this.despawn = function() {

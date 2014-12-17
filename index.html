@@ -279,7 +279,14 @@
         };
 
         this.fireMissile = function() {
-          var missile = Missile.spawn(this.centerX(), this.centerY());
+          var heads = [
+            {x: this.centerX() - 70, y: this.centerY() - 135}, // Corydon
+            {x: this.centerX() + 65, y: this.centerY() - 130} // Wammen
+          ];
+
+          var head = heads[Math.floor(Math.random() * heads.length)];
+
+          var missile = Missile.spawn(head.x, head.y);
           this.missiles.push(missile);
           this.addMissileToStage(missile);
         };

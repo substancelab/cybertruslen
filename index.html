@@ -280,10 +280,8 @@
 
         this.fireMissile = function() {
           var missile = Missile.spawn(this.centerX(), this.centerY());
-          if (missile.target) {
-            this.missiles.push(missile);
-            this.addMissileToStage(missile);
-          }
+          this.missiles.push(missile);
+          this.addMissileToStage(missile);
         };
 
         this.stageElement = function() {

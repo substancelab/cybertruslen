@@ -13,6 +13,9 @@
   <body>
 
     <div id="stage" class="stage">
+      <div id="healthbar" class="healthbar">
+        <div class="healthbar-health">Rigets IT sikkerhed</div>
+      </div>
       <div id="defenders" class="defenders"></div>
     </div>
 
@@ -32,7 +35,7 @@
           outlet.style.top = '' + this.y + 'px';
         };
 
-        this.detectWin = function() {
+        this.hitsDefenders = function() {
           if (scene.distance(this, {x: scene.centerX(), y: scene.centerY()}) < 40) {
             return true;
           }
@@ -134,7 +137,9 @@
 
       function Scene() {
         this.attackers = [];
+        this.health = 100;
         this.lost = false;
+
         this.missiles = [];
 
         var timestamp = 0;
@@ -166,6 +171,11 @@
           return this.height() / 2;
         };
 
+        this.damageDefenders = function(attacker) {
+          this.health -= Math.random() * 5 + 5
+          this.removeAttacker(attacker);
+        };
+
         this.defend = function() {
           this.fireMissile();
         };
@@ -185,12 +195,23 @@
           return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
         }
 
+        this.drawHealthbar = function() {
+          this.healthbarElement().find(".healthbar-health").css("width", this.health + '%')
+        };
+
         this.endGame = function() {
           this.lost = true;
           this.removeAttackersFromStage();
           this.removeAttackers();
           this.timestamp = 0;
           this.timeSinceLastAttacker = 0;
+        };
+
+        this.healthbarElement = function() {
+          if (!this._healthbarElement) {
+            this._healthbarElement = $('#healthbar');
+          };
+          return this._healthbarElement;
         };
 
         this.height = function() {
@@ -207,6 +228,8 @@
             var missile = this.missiles[i];
             missile.draw();
           }
+
+          this.drawHealthbar()
         };
 
         this.removeAttacker = function(attacker) {
@@ -294,8 +317,9 @@
               this.width() / 2,
               this.height() / 2
             );
-            if (attacker.detectWin(this.centerX(), this.centerY())) {
-              this.endGame();
+
+            if (attacker.hitsDefenders()) {
+              this.damageDefenders(attacker);
             };
           }
         };

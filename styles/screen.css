@@ -27,6 +27,25 @@ html, body {
   width: 361px;
 }
 
+.healthbar {
+  background: rgba(255,0,0,0.3);
+  left: 0;
+  padding: 8px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 100%;
+}
+.healthbar-health {
+  background: red;
+  color: #ffffff;
+  text-align: center;
+  overflow: hidden;
+  padding: 8px 0;
+  white-space: nowrap;
+  width: 45%;
+}
+
 .missile {
   background: url("../images/paragraph.png") no-repeat 50% 50%;
   height: 40px;

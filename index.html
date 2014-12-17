@@ -20,6 +20,7 @@
       function Attacker() {
         var self = this;
 
+        this.alive = true;
         this.x = undefined;
         this.y = undefined;
         this.speed = 5;
@@ -68,6 +69,10 @@
         this.target = undefined;
         this.outlet = undefined;
 
+        this.aquireTarget = function() {
+          this.target = scene.attackers[0];
+        };
+
         this.draw = function() {
           var outlet = this.outlet;
           outlet.style.left = '' + this.x + 'px';
@@ -75,8 +80,10 @@
         };
 
         this.update = function() {
-          if (this.target) {
+          if (this.target && this.target.alive) {
             this.moveTowards(this.target.x, this.target.y);
+          } else {
+            this.aquireTarget()
           }
         };
 
@@ -125,10 +132,7 @@
         };
 
         this.defend = function() {
-          var target = this.attackers[0];
-          if (target) {
-            this.spawnMissile(target);
-          }
+          this.spawnMissile();
         };
 
         this.defenders = function() {
@@ -136,6 +140,10 @@
         };
 
         this.distance = function(a, b) {
+          if (!a || !b) {
+            return undefined
+          }
+
           var deltaX = a.x - b.x;
           var deltaY = a.y - b.y;
 
@@ -215,17 +223,18 @@
           this.addAttackerToStage(attacker);
         };
 
-        this.spawnMissile = function(target) {
+        this.spawnMissile = function() {
           var missile = new Missile();
           var angle = Math.random() * Math.PI * 2;
 
           missile.x = this.centerX();
           missile.y = this.centerY();
 
-          missile.target = target;
-
-          this.missiles.push(missile);
-          this.addMissileToStage(missile);
+          missile.aquireTarget()
+          if (missile.target) {
+            this.missiles.push(missile);
+            this.addMissileToStage(missile);
+          }
         };
 
         this.stageElement = function() {
@@ -269,6 +278,7 @@
 
             var distanceToTarget = this.distance(missile, missile.target);
             if (distanceToTarget < 15) {
+              missile.target.alive = false;
               this.removeAttacker(missile.target)
               this.removeMissile(missile)
             }

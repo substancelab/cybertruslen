@@ -65,9 +65,13 @@
 
         this.x = undefined;
         this.y = undefined;
-        this.speed = 25;
+        this.accelleration = 0.2;
+        this.speed = 0;
+        this.maxSpeed = 15;
         this.target = undefined;
         this.outlet = undefined;
+        this.angle = - Math.PI/2;
+        this.turnSpeed = 0.15
 
         this.aquireTarget = function() {
           this.target = scene.attackers[0];
@@ -85,10 +89,39 @@
 
         this.update = function() {
           if (this.target && this.target.alive) {
-            this.moveTowards(this.target.x, this.target.y);
+            var deltaX = this.target.x - this.x;
+            var deltaY = this.target.y - this.y;
+            var targetAngle = Math.atan2(deltaY, deltaX);
+            if (targetAngle < -Math.PI) {
+              targetAngle += Math.PI
+            };
+            if (targetAngle > Math.PI) {
+              targetAngle -= Math.PI
+            };
+            if (targetAngle > this.angle) {
+              this.angle += this.turnSpeed;
+            } else if (targetAngle < this.angle) {
+              this.angle -=this.turnSpeed;
+            };
           } else {
+            this.aquireTarget()
+            // No target
+          }
+
+          // Out of bounds?
+          if (
+              (this.x < 0 || this.x > scene.width()) ||
+              (this.y < 0 || this.y > scene.height())
+            ) {
             this.despawn()
           }
+
+          if (this.speed < this.maxSpeed) {
+            this.speed += this.accelleration;
+          }
+
+          this.x += Math.cos(this.angle) * this.speed;
+          this.y += Math.sin(this.angle) * this.speed;
         };
 
         this.moveTowards = function(x, y) {
@@ -230,8 +263,8 @@
         this.spawnAttacker = function() {
           var attacker = new Attacker();
           var angle = Math.random() * Math.PI * 2;
-          attacker.x = this.width() / 2 + Math.cos(angle) * this.width();
-          attacker.y = this.height() / 2 + Math.sin(angle) * this.height();
+          attacker.x = this.width() / 2 + Math.cos(angle) * this.width()/2;
+          attacker.y = this.height() / 2 + Math.sin(angle) * this.height()/2;
 
           this.attackers.push(attacker);
           this.addAttackerToStage(attacker);

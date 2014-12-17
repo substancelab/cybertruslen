@@ -77,7 +77,7 @@ function Scene() {
   };
 
   this.gameOver = function() {
-    location.reload()
+    stage.play(gameOver)
   };
 
   this.healthbarElement = function() {

@@ -51,10 +51,9 @@ html, body {
   display: block;
 }
 
-.menu {
+.dialog {
   background: #ffffff;
   box-sizing: border-box;
-  display: none;
   left: 50%;
   margin-left: -250px;
   padding: 2em;
@@ -65,15 +64,25 @@ html, body {
   width: 500px;
   z-index: 200;
 }
-.menu h1 {
+.dialog h1 {
   font-size: 3em;
   margin-bottom: 2rem;
   margin-top: 2rem;
 }
-.menu p {
+.dialog p {
   margin: 0.5em 0;
 }
+
+.menu {
+  display: none;
+}
 .stage-menu .menu {
+  display: block;
+}
+.game-over {
+  display: none;
+}
+.stage-game-over .game-over {
   display: block;
 }
 

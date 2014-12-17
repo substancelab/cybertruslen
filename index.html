@@ -96,6 +96,16 @@
           this.y += Math.sin(angle) * this.speed;
         }
       }
+      Missile.spawn = function(x, y) {
+        var missile = new Missile();
+
+        missile.x = x;
+        missile.y = y;
+
+        missile.aquireTarget();
+
+        return missile;
+      };
 
       function Scene() {
         this.attackers = [];
@@ -132,7 +142,7 @@
         };
 
         this.defend = function() {
-          this.spawnMissile();
+          this.fireMissile();
         };
 
         this.defenders = function() {
@@ -223,14 +233,8 @@
           this.addAttackerToStage(attacker);
         };
 
-        this.spawnMissile = function() {
-          var missile = new Missile();
-          var angle = Math.random() * Math.PI * 2;
-
-          missile.x = this.centerX();
-          missile.y = this.centerY();
-
-          missile.aquireTarget()
+        this.fireMissile = function() {
+          var missile = Missile.spawn(this.centerX(), this.centerY());
           if (missile.target) {
             this.missiles.push(missile);
             this.addMissileToStage(missile);

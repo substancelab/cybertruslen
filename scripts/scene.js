@@ -1,4 +1,6 @@
 function Scene() {
+  this.key = 'level';
+
   this.attackers = [];
   this.health = 100;
   this.lost = false;
@@ -37,6 +39,10 @@ function Scene() {
   this.damageDefenders = function(attacker) {
     this.health -= Math.random() * 5 + 5
     this.removeAttacker(attacker);
+
+    if (this.health <= 0) {
+      this.gameOver()
+    };
   };
 
   this.defend = function() {
@@ -68,6 +74,10 @@ function Scene() {
     this.removeAttackers();
     this.timestamp = 0;
     this.timeSinceLastAttacker = 0;
+  };
+
+  this.gameOver = function() {
+    location.reload()
   };
 
   this.healthbarElement = function() {

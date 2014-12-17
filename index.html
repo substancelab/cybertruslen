@@ -284,7 +284,7 @@
       var scene = new Scene();
       stage.play(scene);
 
-      function doKeyDown(event){
+      function handleKey(event){
         switch (event.keyCode) {
           case 13:
             /* enter key was pressed */
@@ -292,7 +292,7 @@
             break;
         }
       }
-      window.addEventListener('keydown', doKeyDown, true);
+      window.addEventListener('keyup', handleKey, true);
     </script>
   </body>
 </html>

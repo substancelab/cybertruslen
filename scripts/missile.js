@@ -3,7 +3,7 @@ function Missile() {
 
   this.x = undefined;
   this.y = undefined;
-  this.accelleration = 0.2;
+  this.accelleration = 0.25;
   this.speed = 0;
   this.maxSpeed = 15;
   this.target = undefined;

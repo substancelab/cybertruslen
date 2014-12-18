@@ -71,8 +71,11 @@
       function handleTouch(event) {
         enterPressed();
       };
-      window.addEventListener('keyup', handleKey, true);
-      window.addEventListener("touchend", handleTouch, true);
+
+      setTimeout(function() {
+        window.addEventListener('keyup', handleKey, true);
+        window.addEventListener("touchend", handleTouch, true);
+      }, 1000)
 
     </script>
     <script>

@@ -76,6 +76,18 @@ html, body {
 .menu {
   display: none;
 }
+.menu small {
+  border-top: 1px solid #cccccc;
+  opacity: 0.5;
+  display: block;
+  font-size: 0.8em;
+  margin-top: 3em;
+  margin-left: -1em;
+  margin-right: -1em;
+  margin-bottom: -1em;
+  padding: 0;
+  padding-top: 1em;
+}
 .stage-menu .menu {
   display: block;
 }

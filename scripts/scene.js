@@ -208,7 +208,7 @@ function Scene() {
       missile.update();
 
       var distanceToTarget = this.distance(missile, missile.target);
-      if (distanceToTarget < 15) {
+      if (distanceToTarget < 25) {
         missile.target.alive = false;
         this.removeAttacker(missile.target)
         this.removeMissile(missile)
